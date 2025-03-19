@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Affiliate-Anmeldung</title>
+    <title>Formular</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700&display=swap');
+        /* ============================ */
+        /* ======= VARIABLE DESIGN ===== */
+        /* ============================ */
 
         :root {
+            /* Textinhalte */
             --form-title: "BEWIRB DICH";
             --form-subtitle: "und erhalte Vermittlungs-Provisionen";
             --form-description: "Füll einfach das Formular aus, um am Affiliate-Programm teilzunehmen!";
@@ -17,16 +20,35 @@
             --placeholder-lastname: "Muster";
             --placeholder-email: "muster@gmail.com";
 
+            /* Designoptionen */
             --form-border-radius: 20px;
             --input-border-radius: 50px;
             --checkbox-border-radius: 5px;
             --button-border-radius: 50px;
+
             --input-font-size: 18px;
+            --input-background-opacity: 0.5;
+
             --checkbox-size: 20px;
+            --checkbox-border-width: 1px;
+            --checkbox-margin-top: 20px;
+
             --button-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            --button-margin-top: 30px;
+
+            --name-fields-gap: 50px;
+            --field-margin-top: 18px;
+            --button-margin-bottom: 30px;
+
             --form-padding: 40px;
             --form-background-opacity: 0.6;
+
+            --form-field-padding: 20px; /* Abstand der Felder zum Formularrand */
         }
+
+        /* ============================ */
+        /* ======= DESIGN-STYLING ====== */
+        /* ============================ */
 
         body {
             display: flex;
@@ -40,7 +62,7 @@
             padding: 20px;
         }
 
-        .form-container {
+        .google-form-container {
             background: rgba(0, 0, 0, var(--form-background-opacity));
             padding: var(--form-padding);
             border-radius: var(--form-border-radius);
@@ -52,19 +74,22 @@
             text-align: left;
         }
 
+        .form-content {
+            padding: var(--form-field-padding);
+        }
+
         h1, h2, p {
             text-align: center;
-            margin-bottom: 10px;
         }
 
         label {
             font-size: var(--input-font-size);
             display: block;
-            margin-top: 15px;
+            margin-top: var(--field-margin-top);
         }
 
         input {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, var(--input-background-opacity));
             color: white;
             font-size: var(--input-font-size);
             border-radius: var(--input-border-radius);
@@ -72,27 +97,23 @@
             border: 1px solid white;
             width: 100%;
             outline: none;
-            margin-top: 5px;
-            font-family: 'Syne', sans-serif;
-        }
-
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            margin-top: var(--field-margin-top);
         }
 
         .name-fields {
             display: flex;
-            gap: 20px;
+            gap: var(--name-fields-gap);
         }
 
         .name-fields div {
             flex: 1;
         }
 
+        /* Checkbox */
         .checkbox-container {
             display: flex;
             align-items: center;
-            margin-top: 20px;
+            margin-top: var(--checkbox-margin-top);
             gap: 10px;
         }
 
@@ -101,7 +122,7 @@
             width: var(--checkbox-size);
             height: var(--checkbox-size);
             background: transparent;
-            border: 1px solid white;
+            border: var(--checkbox-border-width) solid white;
             border-radius: var(--checkbox-border-radius);
             display: flex;
             align-items: center;
@@ -153,15 +174,17 @@
             font-size: 22px;
             text-transform: uppercase;
             box-shadow: var(--button-shadow);
-            margin-top: 30px;
-            margin-bottom: 30px;
-            font-family: 'Syne', sans-serif;
+            margin-top: var(--button-margin-top);
+            margin-bottom: var(--button-margin-bottom);
         }
 
         .submit-button:hover {
             background-color: #900000;
         }
 
+        /* ============================ */
+        /* ======= RESPONSIVE DESIGN === */
+        /* ============================ */
         @media screen and (max-width: 500px) {
             .name-fields {
                 flex-direction: column;
@@ -178,12 +201,12 @@
 </head>
 <body>
 
-    <div class="form-container">
+    <div class="google-form-container">
         <h1>BEWIRB DICH</h1>
         <h2>und erhalte Vermittlungs-Provisionen</h2>
         <p>Füll einfach das Formular aus, um am Affiliate-Programm teilzunehmen!</p>
 
-        <form id="affiliate-form">
+        <form id="google-form" class="form-content">
             <div class="name-fields">
                 <div>
                     <label for="vorname">Vorname</label>
@@ -211,43 +234,26 @@
         </form>
     </div>
 
-   <script>
-    document.getElementById("affiliate-form").addEventListener("submit", function(event) {
-        event.preventDefault();
+    <script>
+        document.getElementById("google-form").addEventListener("submit", function(event) {
+            event.preventDefault();
 
-        // Debugging: Prüfe, ob das Formular existiert
-        console.log("Formular wurde abgeschickt");
+            let formData = {
+                vorname: document.getElementById("vorname").value,
+                nachname: document.getElementById("nachname").value,
+                email: document.getElementById("email").value,
+                confirm: document.getElementById("confirm").checked ? "Ja" : "Nein"
+            };
 
-        let formData = {
-            vorname: document.getElementById("vorname").value,
-            nachname: document.getElementById("nachname").value,
-            email: document.getElementById("email").value,
-            confirm: document.getElementById("confirm").checked ? "Ja" : "Nein"
-        };
+            fetch("https://script.google.com/macros/s/AKfycbzGLtnxMrq9wZ0JhT7TP753BqF7C7KwVSmkpRtApA_TgZn2cP9bNwJU91m5WTJtgY-c/exec", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            })
+            .then(() => alert("Danke für deine Bewerbung!"))
+            .catch(() => alert("Fehler bei der Übermittlung."));
+        });
+    </script>
 
-        // Debugging: Prüfe die Daten vor dem Senden
-        console.log("Gesendete Daten:", formData);
-
-        // ✅ Richtig: fetch() mit vollständiger Syntax
-        fetch("https://script.google.com/macros/s/AKfycbytMpKRgxC6nSpotsQx0_VnUSJ_hGn1KsOtOPWsZoMataF02c5RZODAyKom8nOzozWR/exec", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => {
-            console.log("Antwort erhalten:", response);
-            return response.json();
-        })
-        .then(data => {
-            console.log("Serverantwort:", data);
-            alert(data.message);
-        })
-        .catch(error => {
-            console.error("Fehler bei der Übertragung:", error);
-        }); // **Korrekte Schließung der Klammern**
-    });
-</script>
 </body>
 </html>
