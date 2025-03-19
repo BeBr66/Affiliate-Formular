@@ -215,6 +215,9 @@
     document.getElementById("affiliate-form").addEventListener("submit", function(event) {
         event.preventDefault();
 
+        // Debugging: Prüfe, ob das Formular existiert
+        console.log("Formular wurde abgeschickt");
+
         let formData = {
             vorname: document.getElementById("vorname").value,
             nachname: document.getElementById("nachname").value,
@@ -222,7 +225,10 @@
             confirm: document.getElementById("confirm").checked ? "Ja" : "Nein"
         };
 
-        // ✅ Richtig: fetch() korrekt mit URL als String!
+        // Debugging: Prüfe die Daten vor dem Senden
+        console.log("Gesendete Daten:", formData);
+
+        // ✅ Richtig: fetch() mit vollständiger Syntax
         fetch("https://script.google.com/macros/s/AKfycbw0BdcX-Q8CuJHG8qHZOnkV3WuVe8pS_zaHM5AIS527xQSgBPQeXiyEcihv6a5e1RQ/exec", {
             method: "POST",
             headers: {
@@ -230,8 +236,12 @@
             },
             body: JSON.stringify(formData)
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log("Antwort erhalten:", response);
+            return response.json();
+        })
         .then(data => {
+            console.log("Serverantwort:", data);
             alert(data.message);
         })
         .catch(error => {
